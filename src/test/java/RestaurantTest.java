@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -65,4 +67,44 @@ class RestaurantTest {
 
 
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    //<<<<<<<<<<<<<<<<<<<<<Order price>>>>>>>>>>>>>>>>>>>>>>>>
+    @Test
+    public void get_total_price_for_all_items_selected_in_menu(){
+
+        List<Item> menu = restaurant.getMenu();
+        List<String> selectedItems=new ArrayList<>();
+        for(Item item : menu){
+            selectedItems.add(item.getName());
+        }
+
+        int orderPrice = restaurant.calculateOrderPrice(selectedItems);
+        assertEquals(388,orderPrice);
+
+
+        // restaurant.calculateOrderPrice()
+    }
+
+    @Test
+    public void get_total_price_when_no_items_selected(){
+
+        List<String> selectedItems=new ArrayList<String>();
+        int orderPrice = restaurant.calculateOrderPrice(selectedItems);
+
+        assertEquals(0,orderPrice);
+    }
+
+    @Test
+    public void get_total_price_when_one_item_selected(){
+
+        List<Item> menu = restaurant.getMenu();
+        List<String> selectedItems=new ArrayList<>();
+        for(Item item : menu){
+            selectedItems.add(item.getName());
+        }
+        selectedItems.remove(1);
+        int orderPrice = restaurant.calculateOrderPrice(selectedItems);
+
+        assertEquals(119,orderPrice);
+    }
 }
